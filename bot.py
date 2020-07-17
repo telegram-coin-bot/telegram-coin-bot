@@ -103,13 +103,14 @@ class Bot(TelegramClient):
 
 @Bot.state_handler(State.START)
 async def start_handler(bot: Bot, event: events.NewMessage.Event):
-    logging.info("Приступаем к заданиям")
+    logging.info("Поехали!")
     await event.respond("/visit")
     return State.START_VISITING_SITE
 
 
 @Bot.state_handler(State.START_VISITING_SITE)
 async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
+    logging.info("Приступаем к заданию")
     message = event.message
     if 'Sorry, there are no new ads available.' in message.message:
         logging.info("Нет новых заданий.")
