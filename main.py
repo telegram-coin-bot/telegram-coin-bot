@@ -1,16 +1,17 @@
 import asyncio
 import utils
 import config
-from bot import Bot
+from bot import create_bot
 
 
-def main():
-    loop = asyncio.get_event_loop()
+async def main():
     accounts = utils.get_all_accounts()
-    clients = [Bot(f"{config.TELETHON_SESSION_NAME}{x}", api_id, api_hash, loop) for x, _, _, api_id, api_hash in
+    clients = [await create_bot(f"{config.TELETHON_SESSION_NAME}{x}", api_id, api_hash, loop) for x, _, _, api_id, api_hash in
                accounts]
-    loop.run_until_complete(asyncio.gather(*[client.run() for client in clients]))
+    await asyncio.create_task(*[client.run() for client in clients])
 
 
 if __name__ == '__main__':
-    main()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    

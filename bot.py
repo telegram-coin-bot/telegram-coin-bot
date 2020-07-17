@@ -33,23 +33,26 @@ class Bot(TelegramClient):
     def __init__(self, session, api_id, api_hash, loop, proxy=None):
         super().__init__(session, api_id, api_hash, connection=ConnectionTcpAbridged, proxy=proxy)
         self.client = AsyncClient()
+        self.current_state = State.START
+
+    async def _init(self):
         try:
-            loop.run_until_complete(self.connect())
+            await self.connect()
         except IOError:
             print('Initial connection failed. Retrying...')
-            loop.run_until_complete(self.connect())
+            await self.connect()
 
-        if not loop.run_until_complete(self.is_user_authorized()):
+        if not await self.is_user_authorized():
             print('First run. Sending code request...')
             user_phone = input('Enter your phone: ')
-            loop.run_until_complete(self.sign_in(user_phone))
+            await self.sign_in(user_phone)
 
             self_user = None
             while self_user is None:
                 code = input('Enter the code you just received: ')
                 try:
                     self_user = \
-                        loop.run_until_complete(self.sign_in(code=code))
+                        await self.sign_in(code=code)
 
                 # Two-step verification may be enabled, and .sign_in will
                 # raise this error. If that's the case ask for the password.
@@ -60,8 +63,7 @@ class Bot(TelegramClient):
                                'Please enter your password: ')
 
                     self_user = \
-                        loop.run_until_complete(self.sign_in(password=pw))
-        self.current_state = State.START
+                        await self.sign_in(password=pw)
 
     async def get_user_id(self):
         me = await self.get_me()
@@ -99,6 +101,13 @@ class Bot(TelegramClient):
                 if s is not None:
                     self.current_state = s
                 break
+
+
+async def create_bot(session, api_id, api_hash, loop, proxy=None):
+    bot = Bot(session, api_id, api_hash, loop, proxy)
+    await bot._init()
+
+    return bot
 
 
 @Bot.state_handler(State.START)
