@@ -114,7 +114,9 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
     message = event.message
     if 'Sorry, there are no new ads available.' in message.message:
         logging.info("Нет новых заданий.")
-        return State.NO_NEW_TASKS
+        await asyncio.sleep(config.DELAY_BETWEEN_GETTING_TASKS)
+        await event.respond("/visit")
+        return State.START_VISITING_SITE
     try:
         url = message.reply_markup.rows[0].buttons[0].url
     except:
@@ -167,5 +169,4 @@ async def skipping_task(bot: Bot, event: events.NewMessage.Event):
 
 @Bot.state_handler(State.NO_NEW_TASKS)
 async def no_new_tasks(bot: Bot, event: events.NewMessage.Event):
-    await asyncio.sleep(config.DELAY_BETWEEN_GETTING_TASKS)
-    return State.START_VISITING_SITE
+    pass
