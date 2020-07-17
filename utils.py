@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def get_all_accounts(filename='accounts.db'):
+def get_all_accounts(filename="accounts.db"):
     with sqlite3.connect(filename) as conn:
         cur = conn.cursor()
 

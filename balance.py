@@ -1,7 +1,9 @@
-import utils
 import time
+
 from telethon.sync import TelegramClient
+
 import config
+import utils
 
 accounts = utils.get_all_accounts()
 total_balance = 0
@@ -18,7 +20,7 @@ for x, phone, password, api_id, api_hash in accounts:
     client.send_message(config.BOT_ADDRESS, "/balance")
     time.sleep(3)
     text = client.get_messages(config.BOT_ADDRESS, limit=1)[0].message
-    balance = float(text.replace('Available balance: ', '').replace(' LTC', ''))
+    balance = float(text.replace("Available balance: ", "").replace(" LTC", ""))
     total_balance += balance
     print(f"Баланс аккаунта № {x} {balance} LTC")
 
