@@ -8,7 +8,7 @@ from bot import create_bot
 async def main():
     accounts = utils.get_all_accounts()
     clients = [
-        await create_bot(f"{config.TELETHON_SESSION_NAME}{x}", api_id, api_hash, loop)
+        await create_bot(f"{config.TELETHON_SESSION_NAME}{x}", api_id, api_hash)
         for x, _, _, api_id, api_hash in accounts
     ]
     await asyncio.gather(*[client.run() for client in clients])

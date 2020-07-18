@@ -32,7 +32,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s:%(mess
 class Bot(TelegramClient):
     state_handlers = []
 
-    def __init__(self, session, api_id, api_hash, loop, proxy=None):
+    def __init__(self, session, api_id, api_hash, proxy=None):
         super().__init__(
             session, api_id, api_hash, connection=ConnectionTcpAbridged, proxy=proxy
         )
@@ -108,8 +108,8 @@ class Bot(TelegramClient):
                 break
 
 
-async def create_bot(session, api_id, api_hash, loop, proxy=None):
-    bot = Bot(session, api_id, api_hash, loop, proxy)
+async def create_bot(session, api_id, api_hash, proxy=None):
+    bot = Bot(session, api_id, api_hash, proxy)
     await bot._init()
 
     return bot
