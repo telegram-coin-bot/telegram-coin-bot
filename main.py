@@ -3,6 +3,7 @@ import asyncio
 import config
 import utils
 from bot import create_bot
+import visit_sites
 
 
 async def main():
