@@ -11,7 +11,7 @@ async def main():
         await create_bot(f"{config.TELETHON_SESSION_NAME}{x}", api_id, api_hash, loop)
         for x, _, _, api_id, api_hash in accounts
     ]
-    await asyncio.create_task(*[client.run() for client in clients])
+    await asyncio.gather(*[client.run() for client in clients])
 
 
 if __name__ == "__main__":
