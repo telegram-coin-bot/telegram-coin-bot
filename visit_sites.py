@@ -1,10 +1,12 @@
-import logging
-from bot import Bot, State
-import config
-from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
-from telethon import events
 import asyncio
+import logging
+
 from bs4 import BeautifulSoup
+from telethon import events
+from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
+
+import config
+from bot import Bot, State
 
 
 @Bot.state_handler(State.START)

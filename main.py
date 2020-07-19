@@ -2,8 +2,8 @@ import asyncio
 
 import config
 import utils
-from bot import create_bot
 import visit_sites
+from bot import create_bot
 
 
 async def main():

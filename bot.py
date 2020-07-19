@@ -3,7 +3,6 @@ import enum
 import logging
 from collections import namedtuple
 
-
 from httpx import AsyncClient
 from telethon import TelegramClient, events
 from telethon.errors import SessionPasswordNeededError
