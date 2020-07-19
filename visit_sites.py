@@ -33,9 +33,16 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
     try:
         response = await bot.client.get(url)
     except:
-        logging.error("Не получилось выполнить запрос")
-        await asyncio.sleep(30)
-        return State.START_VISITING_SITE
+        logging.error("Не получилось выполнить запрос", exc_info=True)
+        bot.current_state = State.SKIPPING_TASK
+        await bot(
+            GetBotCallbackAnswerRequest(
+                config.BOT_ADDRESS,
+                message.id,
+                data=message.reply_markup.rows[1].buttons[1].data,
+            )
+        )
+        return None
     soup = BeautifulSoup(response.content, "lxml")
     potential_captcha = soup.select_one(".card .card-body .text-center h6")
     if potential_captcha is not None and "captcha" in potential_captcha.text.lower():
