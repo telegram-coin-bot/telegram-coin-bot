@@ -30,12 +30,17 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s:%(mess
 class Bot(TelegramClient):
     state_handlers = []
 
-    def __init__(self, session, api_id, api_hash, proxy=None):
+    def __init__(self, session, api_id, api_hash, phone, proxy=None):
         super().__init__(
             session, api_id, api_hash, connection=ConnectionTcpAbridged, proxy=proxy
         )
         self.client = AsyncClient()
         self.current_state = State.START
+        self._phone = phone[1:] if phone[0] == "+" else phone
+
+    @property
+    def phone(self):
+        return self._phone[:3] + "*" * 4 + self._phone[-2:]
 
     async def _init(self):
         try:
@@ -112,8 +117,8 @@ class Bot(TelegramClient):
                 break
 
 
-async def create_bot(session, api_id, api_hash, proxy=None):
-    bot = Bot(session, api_id, api_hash, proxy)
+async def create_bot(session, api_id, api_hash, phone, proxy=None):
+    bot = Bot(session, api_id, api_hash, phone, proxy)
     await bot._init()
 
     return bot
