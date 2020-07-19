@@ -22,7 +22,7 @@ class State(enum.Enum):
     STOP = 6
 
 
-StateHandler = namedtuple("StateHandler", "state callback")
+StateHandler = namedtuple("StateHandler", "state func callback")
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s:%(message)s")
 
@@ -88,20 +88,24 @@ class Bot(TelegramClient):
             await asyncio.sleep(5)
 
     @staticmethod
-    def register_state_handler(state, callback):
-        Bot.state_handlers.append(StateHandler(state=state, callback=callback))
+    def register_state_handler(state, func, callback):
+        Bot.state_handlers.append(
+            StateHandler(state=state, func=func, callback=callback)
+        )
 
     @staticmethod
-    def state_handler(state):
+    def state_handler(state=None, func=None):
         def decorator(callback):
-            Bot.register_state_handler(state=state, callback=callback)
+            Bot.register_state_handler(state=state, func=func, callback=callback)
             return callback
 
         return decorator
 
     async def message_handler(self, event: events.NewMessage.Event):
         for state_handler in self.state_handlers:
-            if state_handler.state == self.current_state:
+            if state_handler.state == self.current_state or (
+                state_handler.func and state_handler.func(event)
+            ):
                 s = await state_handler.callback(self, event)
                 if s is not None:
                     self.current_state = s

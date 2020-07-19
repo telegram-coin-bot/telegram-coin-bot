@@ -36,7 +36,6 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
         response = await bot.client.get(url)
     except:
         logging.error("Не получилось выполнить запрос", exc_info=True)
-        bot.current_state = State.SKIPPING_TASK
         await bot(
             GetBotCallbackAnswerRequest(
                 config.BOT_ADDRESS,
@@ -44,12 +43,11 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
                 data=message.reply_markup.rows[1].buttons[1].data,
             )
         )
-        return None
+        return
     soup = BeautifulSoup(response.content, "lxml")
     potential_captcha = soup.select_one(".card .card-body .text-center h6")
     if potential_captcha is not None and "captcha" in potential_captcha.text.lower():
         logging.info("Найдена капча. Пропускаем задание")
-        bot.current_state = State.SKIPPING_TASK
         await bot(
             GetBotCallbackAnswerRequest(
                 config.BOT_ADDRESS,
@@ -57,7 +55,7 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
                 data=message.reply_markup.rows[1].buttons[1].data,
             )
         )
-        return None
+        return
     p = soup.select_one("#headbar.container-fluid")
     if p is not None:
         wait_time = int(p["data-timer"])
@@ -70,17 +68,20 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
         )
 
 
-@Bot.state_handler(State.GETTING_WAIT_TIME)
+@Bot.state_handler(
+    func=lambda ev: ev.message.message.startswith("Please stay on the site")
+    or ev.message.message.startswith("You must stay on the site")
+)
 async def getting_wait_time(bot: Bot, event: events.NewMessage.Event):
     return State.GETTING_REWARD_INFO
 
 
-@Bot.state_handler(State.GETTING_REWARD_INFO)
+@Bot.state_handler(func=lambda ev: ev.message.message.startswith("You earned"))
 async def getting_reward_info(bot: Bot, event: events.NewMessage.Event):
     return State.START_VISITING_SITE
 
 
-@Bot.state_handler(State.SKIPPING_TASK)
+@Bot.state_handler(func=lambda ev: ev.message.message.startswith("Skipping task..."))
 async def skipping_task(bot: Bot, event: events.NewMessage.Event):
     logging.info("Задание пропущено")
     return State.START_VISITING_SITE
