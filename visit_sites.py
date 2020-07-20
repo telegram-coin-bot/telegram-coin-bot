@@ -36,39 +36,21 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
         response = await bot.client.get(url)
     except:
         logging.error(f"{bot.phone}: Не получилось выполнить запрос", exc_info=True)
-        await bot(
-            GetBotCallbackAnswerRequest(
-                config.BOT_ADDRESS,
-                message.id,
-                data=message.reply_markup.rows[1].buttons[1].data,
-            )
-        )
+        await skip_task(bot, message)
         return
     soup = BeautifulSoup(response.content, "lxml")
     potential_captcha = soup.select_one(".card .card-body .text-center h6")
     potential_error = soup.select_one(".card .card-body .text-center p")
     if potential_captcha and "captcha" in potential_captcha.text.lower():
         logging.info(f"{bot.phone}: Найдена капча. Пропускаем задание")
-        await bot(
-            GetBotCallbackAnswerRequest(
-                config.BOT_ADDRESS,
-                message.id,
-                data=message.reply_markup.rows[1].buttons[1].data,
-            )
-        )
+        await skip_task(bot, message)
         return
     if (
         potential_error
         and "Sorry, but the link you used is not valid." in potential_error.text
     ):
         logging.info(f"{bot.phone}: Невалидная ссылка. Пропуск задания")
-        await bot(
-            GetBotCallbackAnswerRequest(
-                config.BOT_ADDRESS,
-                message.id,
-                data=message.reply_markup.rows[1].buttons[1].data,
-            )
-        )
+        await skip_task(bot, message)
         return
     p = soup.select_one("#headbar.container-fluid")
     if p is not None:
@@ -105,3 +87,13 @@ async def skipping_task(bot: Bot, event: events.NewMessage.Event):
 @Bot.state_handler(State.NO_NEW_TASKS)
 async def no_new_tasks(bot: Bot, event: events.NewMessage.Event):
     pass
+
+
+async def skip_task(bot, message):
+    await bot(
+        GetBotCallbackAnswerRequest(
+            config.BOT_ADDRESS,
+            message.id,
+            data=message.reply_markup.rows[1].buttons[1].data,
+        )
+    )
