@@ -61,6 +61,7 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
             "https://dogeclick.com/reward",
             data={"code": p["data-code"], "token": p["data-token"]},
         )
+    logging.info(f"{bot.phone}: Задание выполнено успешно")
 
 
 @Bot.state_handler(
