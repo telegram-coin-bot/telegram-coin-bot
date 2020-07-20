@@ -35,19 +35,21 @@ async def start_visiting_site(bot: Bot, event: events.NewMessage.Event):
     try:
         response = await bot.client.get(url)
     except:
-        logging.error(f"{bot.phone}: Не получилось выполнить запрос", exc_info=True)
+        logging.error(
+            f"{bot.phone}: Не получилось выполнить запрос: {url}", exc_info=True
+        )
         await skip_task(bot, message)
         return
     soup = BeautifulSoup(response.content, "lxml")
     potential_captcha = soup.select_one(".card .card-body .text-center h6")
     potential_error = soup.select_one(".card .card-body .text-center p")
-    if potential_captcha and "captcha" in potential_captcha.text.lower():
+    if potential_captcha and potential_captcha.text.startswith("Please solve"):
         logging.info(f"{bot.phone}: Найдена капча. Пропускаем задание")
         await skip_task(bot, message)
         return
     if (
         potential_error
-        and "Sorry, but the link you used is not valid." in potential_error.text
+        and "Sorry, but the link you used is not valid." == potential_error.text
     ):
         logging.info(f"{bot.phone}: Невалидная ссылка. Пропуск задания")
         await skip_task(bot, message)
