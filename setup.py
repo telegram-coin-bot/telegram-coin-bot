@@ -42,5 +42,8 @@ setup(
     python_requires=">=3.8",
     packages=find_packages(),
     install_requires=load_requirements("requirements.txt"),
+    entry_points={
+        "console_scripts": ["{0}-db = {0}.db.__main__:main".format(module_name)]
+    },
     include_package_data=True,
 )
