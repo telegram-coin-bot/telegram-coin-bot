@@ -2,8 +2,7 @@ import time
 
 from telethon.sync import TelegramClient
 
-import config
-import utils
+from telegram_coin_bot import config, utils
 
 accounts = utils.get_all_accounts()
 total_balance = 0

@@ -1,9 +1,8 @@
 import asyncio
 
-import config
-import utils
-from bot import create_bot
-from handlers import visit_sites
+from telegram_coin_bot import config, utils
+from telegram_coin_bot.bot import create_bot
+from telegram_coin_bot.handlers import visit_sites
 
 
 async def main():

@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("accounts.db")
+conn = sqlite3.connect("accounts.asdf")
 cur = conn.cursor()
 # Создаем таблицу
 cur.execute(
@@ -8,8 +8,6 @@ cur.execute(
     id INTEGER PRIMARY KEY,
     phone TEXT UNIQUE,
     password TEXT,
-    api_id TEXT,
-    api_hash TEXT,
     activity BOOLEAN,
     litecoin_wallet TEXT
 )"""
@@ -21,17 +19,15 @@ conn.commit()
 def add_account():
     phone = input("Введите номер телефона: ")
     password = input("Введите пароль: ")
-    api_id = input("Введите api_id: ")
-    api_hash = input("Введите api_hash: ")
     activity = True if input("Аккаунт активен? [y/N] ").lower() == "y" else False
     litecoin_wallet = input("Введите LTC кошелёк: ")
 
     if input("Данные введены верно? [Y/n] ").lower() == "n":
         return
     cur.execute(
-        "INSERT OR REPLACE INTO accounts(phone, password, api_id, api_hash, activity, litecoin_wallet) "
+        "INSERT OR REPLACE INTO accounts(phone, password, activity, litecoin_wallet) "
         "VALUES (?,?,?,?,?,?);",
-        (phone, password, api_id, api_hash, activity, litecoin_wallet),
+        (phone, password, activity, litecoin_wallet),
     )
     conn.commit()
 
@@ -43,13 +39,9 @@ def remove_account():
 
 
 def list_accounts():
-    cur.execute(
-        "SELECT phone, password, api_id, api_hash, activity, litecoin_wallet FROM accounts"
-    )
+    cur.execute("SELECT phone, password, activity, litecoin_wallet FROM accounts")
     accounts = cur.fetchall()
-    accounts.insert(
-        0, ["phone", "password", "api_id", "api_hash", "activity", "litecoin wallet"]
-    )
+    accounts.insert(0, ["phone", "password", "activity", "litecoin wallet"])
     max_lengths = [0] * len(accounts[0])
     for account in accounts:
         for i, e in enumerate(account):
