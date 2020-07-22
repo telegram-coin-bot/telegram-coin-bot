@@ -2,8 +2,8 @@ import asyncio
 
 import config
 import utils
-import visit_sites
 from bot import create_bot
+from handlers import visit_sites
 
 
 async def main():
@@ -12,7 +12,10 @@ async def main():
         await create_bot(f"{config.TELETHON_SESSION_NAME}{x}", api_id, api_hash, phone)
         for x, phone, _, api_id, api_hash in accounts
     ]
-    tasks = [asyncio.create_task(client.run()) for client in clients]
+    await asyncio.gather(
+        *[client.send_message(config.BOT_ADDRESS, "/menu") for client in clients]
+    )
+    tasks = [asyncio.create_task(client.run_until_disconnected()) for client in clients]
     await asyncio.wait(tasks)
 
 
