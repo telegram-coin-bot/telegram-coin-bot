@@ -24,11 +24,15 @@ def upgrade():
         sa.Column("phone", sa.String(), nullable=True),
         sa.Column("password", sa.String(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("phone"),
     )
     op.create_table(
         "sessions",
+        sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("phone", sa.String(), nullable=True),
         sa.Column("session_string", sa.String(), nullable=True),
+        sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("phone"),
     )
     # ### end Alembic commands ###
 
