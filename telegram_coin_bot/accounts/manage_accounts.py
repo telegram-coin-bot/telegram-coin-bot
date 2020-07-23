@@ -1,4 +1,3 @@
-import asyncpg
 from telegram_coin_bot.db.schema import Account, Session, db
 
 
