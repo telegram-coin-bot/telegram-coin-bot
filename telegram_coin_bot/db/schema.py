@@ -7,12 +7,13 @@ class Account(db.Model):
     __tablename__ = "accounts"
 
     id = db.Column(db.Integer(), primary_key=True)
-    phone = db.Column(db.String())
+    phone = db.Column(db.String(), unique=True)
     password = db.Column(db.String())
 
 
 class Session(db.Model):
     __tablename__ = "sessions"
 
-    phone = db.Column(db.String())
+    id = db.Column(db.Integer(), primary_key=True)
+    phone = db.Column(db.String(), unique=True)
     session_string = db.Column(db.String())
