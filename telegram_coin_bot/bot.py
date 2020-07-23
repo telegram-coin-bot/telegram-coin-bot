@@ -39,7 +39,7 @@ class Bot(TelegramClient):
 
 
 async def create_bot(session, api_id, api_hash, phone, proxy=None):
-    bot = Bot(session, api_id, api_hash, phone, proxy)
+    bot = Bot(StringSession(session), api_id, api_hash, phone, proxy)
     await bot.start()
 
     return bot
