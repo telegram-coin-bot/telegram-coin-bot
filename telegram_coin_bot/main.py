@@ -14,10 +14,9 @@ async def main():
     await asyncio.gather(
         *[client.send_message(config.BOT_ADDRESS, "/menu") for client in clients]
     )
-    tasks = [asyncio.create_task(client.run_until_disconnected()) for client in clients]
-    await asyncio.wait(tasks)
 
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    loop.create_task(main())
+    loop.run_forever()

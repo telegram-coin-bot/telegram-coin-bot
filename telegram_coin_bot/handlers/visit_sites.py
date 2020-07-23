@@ -57,18 +57,10 @@ async def start_handler(event: events.NewMessage.Event):
 async def start_visiting_site(event: events.NewMessage.Event):
     client = event.client
     logging.info(f"{client.phone}: Приступаем к заданию")
+
     message = event.message
-    if "Sorry, there are no new ads available." in message.message:
-        logging.info(f"{client.phone}: Нет новых заданий.")
-        await asyncio.sleep(config.DELAY_BETWEEN_GETTING_TASKS)
-        await event.respond("/visit")
-        return
-    try:
-        url = message.reply_markup.rows[0].buttons[0].url
-    except:
-        logging.error(f"{client.phone}: Не могу найти url в сообщении")
-        await event.respond("/visit")
-        return
+    url = message.reply_markup.rows[0].buttons[0].url
+
     try:
         response = await client.client.get(url)
     except:
@@ -128,6 +120,20 @@ async def getting_reward_info(event: events.NewMessage.Event):
 async def skipping_task(event: events.NewMessage.Event):
     client = event.client
     logging.info(f"{client.phone}: Задание пропущено")
+
+
+@Bot.register_handler(
+    events.NewMessage(
+        func=lambda ev: ev.message.message.startswith(
+            "Sorry, there are no new ads available"
+        )
+    )
+)
+async def no_new_tasks(event: events.NewMessage.Event):
+    client = event.client
+    logging.info(f"{client.phone}: Заданий больше нет.")
+    await asyncio.sleep(config.DELAY_BETWEEN_GETTING_TASKS)
+    await event.respond("/visit")
 
 
 async def skip_task(bot, message):
