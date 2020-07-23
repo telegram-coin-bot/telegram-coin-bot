@@ -43,7 +43,10 @@ setup(
     packages=find_packages(),
     install_requires=load_requirements("requirements.txt"),
     entry_points={
-        "console_scripts": ["{0}-db = {0}.db.__main__:main".format(module_name)]
+        "console_scripts": [
+            "{0}_db = {0}.db.__main__:main".format(module_name),
+            "{0}_accounts = {0}.accounts.__main__:main".format(module_name),
+        ]
     },
     include_package_data=True,
 )
