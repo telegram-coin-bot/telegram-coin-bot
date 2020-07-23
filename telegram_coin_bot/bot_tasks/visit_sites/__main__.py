@@ -6,7 +6,7 @@ from telegram_coin_bot.db.schema import Session, db
 from telegram_coin_bot.handlers import visit_sites
 
 
-async def main():
+async def _main():
     await db.set_bind(config.POSTGRES_URI)
     sessions = await db.all(Session.query)
     clients = [
@@ -23,7 +23,11 @@ async def main():
     )
 
 
-if __name__ == "__main__":
+def main():
     loop = asyncio.get_event_loop()
-    loop.create_task(main())
+    loop.create_task(_main())
     loop.run_forever()
+
+
+if __name__ == "__main__":
+    main()
