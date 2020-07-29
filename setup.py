@@ -49,6 +49,7 @@ setup(
             "{0}_visit_sites = {0}.bot_tasks.visit_sites.__main__:main".format(
                 module_name
             ),
+            "{0}_config = {0}.configurator.__main__:main".format(module_name),
         ]
     },
     include_package_data=True,
