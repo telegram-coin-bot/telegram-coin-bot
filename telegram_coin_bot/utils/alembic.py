@@ -1,5 +1,4 @@
 import os
-import sqlite3
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Union
@@ -7,18 +6,7 @@ from typing import Union
 from alembic.config import Config
 from configargparse import Namespace
 
-PROJECT_PATH = Path(__file__).parent.resolve()
-
-
-def get_all_accounts(filename="accounts.db"):
-    with sqlite3.connect(filename) as conn:
-        cur = conn.cursor()
-
-        cur.execute("SELECT id, phone, password, api_id, api_hash FROM accounts")
-        accounts = cur.fetchall()
-
-        cur.close()
-    return accounts
+PROJECT_PATH = Path(__file__).parent.parent.resolve()
 
 
 def make_alembic_config(
