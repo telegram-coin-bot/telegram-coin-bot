@@ -28,5 +28,4 @@ six==1.15.0
 sniffio==1.1.0
 soupsieve==2.0.1
 SQLAlchemy==1.3.18
--e git+https://github.com/telegram-coin-bot/telegram-coin-bot@a47ff891d1682f95a37fbd5852ae67fa5e5b4782#egg=telegram_coin_bot
 Telethon==1.15.0
