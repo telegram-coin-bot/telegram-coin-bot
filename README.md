@@ -20,4 +20,4 @@
 
 
 ## Связь
-1. [Telegram-канал](https://t.me/joinchat/FCFSlRi-XriZQ6FaJmpgGg)
+1. [Telegram-канал](https://t.me/joinchat/QvifVxazS_2gLo1nyLPXWQ)
