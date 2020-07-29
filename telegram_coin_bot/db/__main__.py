@@ -3,8 +3,8 @@ import logging
 import os
 
 from alembic.config import CommandLine
-from telegram_coin_bot.config import POSTGRES_URI
-from telegram_coin_bot.utils import make_alembic_config
+from telegram_coin_bot.utils.config import Config
+from telegram_coin_bot.utils.alembic import make_alembic_config
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     alembic.parser.formatter_class = argparse.ArgumentDefaultsHelpFormatter
     alembic.parser.add_argument(
         "--pg-url",
-        default=os.getenv("POSTGRES_URI", POSTGRES_URI),
+        default=os.getenv("POSTGRES_URI", Config.POSTGRES_URI.value),
         help="Database URL [env var: POSTGRES_URI]",
     )
 

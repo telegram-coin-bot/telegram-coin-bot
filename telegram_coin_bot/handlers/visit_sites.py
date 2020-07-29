@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from telethon import events
 from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
 
-from telegram_coin_bot import config
+from telegram_coin_bot.utils.config import Config
 from telegram_coin_bot.bot import Bot
 
 
@@ -132,14 +132,14 @@ async def skipping_task(event: events.NewMessage.Event):
 async def no_new_tasks(event: events.NewMessage.Event):
     client = event.client
     logging.info(f"{client.phone}: Заданий больше нет.")
-    await asyncio.sleep(config.DELAY_BETWEEN_GETTING_TASKS)
+    await asyncio.sleep(int(Config.DELAY_BETWEEN_GETTING_TASKS.value))
     await event.respond("/visit")
 
 
 async def skip_task(bot, message):
     await bot(
         GetBotCallbackAnswerRequest(
-            config.BOT_ADDRESS,
+            Config.BOT_ADDRESS.value,
             message.id,
             data=message.reply_markup.rows[1].buttons[1].data,
         )

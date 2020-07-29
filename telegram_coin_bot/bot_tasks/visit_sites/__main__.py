@@ -1,25 +1,25 @@
 import asyncio
-
-from telegram_coin_bot import config
+import asyncpg
+from telegram_coin_bot.utils.config import Config
 from telegram_coin_bot.bot import create_bot
 from telegram_coin_bot.db.schema import Session, db
-from telegram_coin_bot.handlers import visit_sites
+from telegram_coin_bot.utils.db import try_to_connect
 
 
 async def _main():
-    await db.set_bind(config.POSTGRES_URI)
+    await try_to_connect(db, Config.POSTGRES_URI.value)
     sessions = await db.all(Session.query)
     clients = [
         await create_bot(
             session.session_string,
-            config.TELEGRAM_API_ID,
-            config.TELEGRAM_API_ID,
+            Config.API_ID.value,
+            Config.API_HASH.value,
             session.phone,
         )
         for session in sessions
     ]
     await asyncio.gather(
-        *[client.send_message(config.BOT_ADDRESS, "/menu") for client in clients]
+        *[client.send_message(Config.BOT_ADDRESS.value, "/menu") for client in clients]
     )
 
 
