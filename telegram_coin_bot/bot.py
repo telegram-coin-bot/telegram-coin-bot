@@ -1,16 +1,9 @@
-import asyncio
-import enum
 import logging
-from collections import namedtuple
 
 from httpx import AsyncClient
-from telethon import TelegramClient, events
-from telethon.errors import SessionPasswordNeededError
+from telethon import TelegramClient
 from telethon.events.common import EventBuilder
-from telethon.network import ConnectionTcpAbridged
 from telethon.sessions import StringSession
-
-from telegram_coin_bot import config, utils
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s:%(message)s")
 
