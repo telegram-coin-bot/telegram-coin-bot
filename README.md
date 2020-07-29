@@ -1,23 +1,31 @@
 # Telegram Coin Bot
-![Бот для добывания криптовалюты, выполняя задания ботов dogeclick](https://i.imgur.com/dGC2Ay8.png)
+![Preview](https://i.imgur.com/dGC2Ay8.png)
 
 Бот, который выполняет задания ботов [dogeclick](https://dogeclick.com/), для добычи криптовалюты.
 
 Проект находится в очень сыром виде. [Помощь](.github/CONTRIBUTING.md) приветствуется.
 
 ## Установка
-1. `pip install -r requirements.txt`
+1. `pip install -e git+https://github.com/telegram-coin-bot/telegram-coin-bot#egg=telegram_coin_bot`
 2. Зарегистрировать Telegram-аккаунты (см. правила регистрации аккаунтов)
-3. Добавить Telegram-аккаунты в базу данных, запустив `create_db.py`
-4. Создать клиенты, запустив `create_clients.py`
-5. Поменяйте какие-то параметры в `config.py`, если нужно
+3. Установить [PostgreSQL](https://www.postgresql.org/download/)
+4. Создать базу данных и пользователя. (см. Создание БД)
+5. Создать Telegram Application.
+6. Запустить `telegram_coin_bot_config`, указать всё, что требуется
+7. Запустить `telegram_coin_bot_accounts`, добавить аккаунты
+8. Сгенерировать сессии `telegram_coin_bot_accounts --generate-sessions`
 
+## Создание БД
+Например, так
+```sql
+CREATE USER telegram_coin_user WITH ENCRYPTED PASSWORD 'telegram_coin_password'; 
+CREATE DATABASE telegram_coin_db;
+GRANT ALL PRIVILEGES ON DATABASE telegram_coin_db to telegram_coin_user;
+```
 ## Использование
-1. Запустите `main.py`, чтобы начать добывать криптоволюту
-2. Узнайте баланс на всех аккаунтах, запустив `balance.py`
+1. Запустите `telegram_coin_bot_visit_sites`, чтобы начать добывать криптоволюту
 
 ## Правила регистрации аккаунтов
-
 
 ## Связь
 1. [Telegram-канал](https://t.me/joinchat/Uue9YBXPFKDlkFpTvH_qSA)
