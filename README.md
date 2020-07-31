@@ -12,8 +12,9 @@
 4. Создать базу данных и пользователя. (см. Создание БД)
 5. Создать Telegram Application.
 6. Запустить `telegram_coin_bot_config`, указать всё, что требуется
-7. Запустить `telegram_coin_bot_accounts`, добавить аккаунты
-8. Сгенерировать сессии `telegram_coin_bot_accounts --generate-sessions`
+7. `telegram_coin_bot_db upgrade head`
+8. Запустить `telegram_coin_bot_accounts`, добавить аккаунты
+9. Сгенерировать сессии `telegram_coin_bot_accounts --generate-sessions`
 
 ## Создание БД
 Например, так
