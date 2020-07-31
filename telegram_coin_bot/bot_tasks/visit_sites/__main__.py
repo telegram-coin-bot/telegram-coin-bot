@@ -4,6 +4,7 @@ from telegram_coin_bot.utils.config import Config
 from telegram_coin_bot.bot import create_bot
 from telegram_coin_bot.db.schema import Session, db
 from telegram_coin_bot.utils.db import try_to_connect
+from telegram_coin_bot.handlers import visit_sites
 
 
 async def _main():
