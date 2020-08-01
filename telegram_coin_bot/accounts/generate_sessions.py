@@ -7,16 +7,20 @@ from telegram_coin_bot.db.schema import Account, Session, db
 
 async def generate_sessions():
     accounts = await db.all(Account.query)
+
     for account in accounts:
-        print(f"Входим в аккаунт {account.phone}...")
-        client = TelegramClient(
-            StringSession(), Config.API_ID.value, Config.API_HASH.value
-        )
-        await client.start(phone=account.phone, password=account.password)
-        session_string = client.session.save()
-        session = await Session.query.where(Session.phone == account.phone).gino.first()
-        if not session:
-            await Session.create(phone=account.phone, session_string=session_string)
+        if await Session.query.where(Session.phone == account.phone).gino.first():
+            print(f'Сессия уже создана для {account.phone}')
+            continue
         else:
-            await session.update(session_string=session_string).apply()
-        await client.disconnect()
+            print(f'Создаём сессию для {account.phone} ...')
+            client = TelegramClient(
+                StringSession(), Config.API_ID.value, Config.API_HASH.value
+            )
+
+            await client.start(phone=account.phone, password=account.password)
+            session_string = client.session.save()
+            await Session.create(phone=account.phone, session_string=session_string)
+            
+            await client.disconnect()
+            
