@@ -10,10 +10,10 @@ async def generate_sessions():
 
     for account in accounts:
         if await Session.query.where(Session.phone == account.phone).gino.first():
-            print(f'Сессия уже создана для {account.phone}')
+            print(f"Сессия уже создана для {account.phone}")
             continue
         else:
-            print(f'Создаём сессию для {account.phone} ...')
+            print(f"Создаём сессию для {account.phone} ...")
             client = TelegramClient(
                 StringSession(), Config.API_ID.value, Config.API_HASH.value
             )
@@ -21,6 +21,5 @@ async def generate_sessions():
             await client.start(phone=account.phone, password=account.password)
             session_string = client.session.save()
             await Session.create(phone=account.phone, session_string=session_string)
-            
+
             await client.disconnect()
-            
