@@ -20,6 +20,7 @@ async def add_account():
 async def remove_account():
     phone = input("Введите номер телефона: ")
     await Account.delete.where(Account.phone == phone).gino.status()
+    await Session.delete.where(Session.phone == phone).gino.status()
 
 
 async def list_accounts():
