@@ -10,9 +10,9 @@
 2. Зарегистрировать Telegram-аккаунты (см. правила регистрации аккаунтов)
 3. Установить [PostgreSQL](https://www.postgresql.org/download/)
 4. Создать базу данных и пользователя. (см. Создание БД)
-5. Создать Telegram Application.
+5. Создать Telegram Application (получить api_id,api_hash).
 6. Запустить `telegram_coin_bot_config`, указать всё, что требуется
-7. `telegram_coin_bot_db upgrade head`
+7. Обновить изменения, запустив `telegram_coin_bot_db upgrade head`
 8. Запустить `telegram_coin_bot_accounts`, добавить аккаунты
 9. Сгенерировать сессии `telegram_coin_bot_accounts --generate-sessions`
 
@@ -26,7 +26,12 @@ GRANT ALL PRIVILEGES ON DATABASE telegram_coin_db to telegram_coin_user;
 ## Использование
 1. Запустите `telegram_coin_bot_visit_sites`, чтобы начать добывать криптоволюту
 
+## Обновление
+1. `pip install -e git+https://github.com/telegram-coin-bot/telegram-coin-bot#egg=telegram_coin_bot`
+
 ## Правила регистрации аккаунтов
+1. Покупаете/арендуете/просите номера
+2. Регестрируете не более 10 аккаунтов на одном ip
 
 ## Связь
 1. [Telegram-канал](https://t.me/joinchat/Uue9YBXPFKDlkFpTvH_qSA)
