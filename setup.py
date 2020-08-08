@@ -50,6 +50,7 @@ setup(
                 module_name
             ),
             "{0}_config = {0}.configurator.__main__:main".format(module_name),
+            "{0}_balance = {0}.balance.__main__:main".format(module_name),
         ]
     },
     include_package_data=True,
