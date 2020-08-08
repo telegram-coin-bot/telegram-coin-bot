@@ -25,7 +25,7 @@ GRANT ALL PRIVILEGES ON DATABASE telegram_coin_db to telegram_coin_user;
 ```
 ## Использование
 1. Запустите `telegram_coin_bot_visit_sites`, чтобы начать добывать криптоволюту
-
+2. Проверить баланс &mdash; `telegram_coin_bot_balance`
 ## Правила регистрации аккаунтов
 
 ## Связь
