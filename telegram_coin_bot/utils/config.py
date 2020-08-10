@@ -82,3 +82,7 @@ class Config:
     )
 
     BOT_TOKEN = ConfigUnit("telethon", "bot_token", description="Токен бота")
+
+    TG_USER_ID = ConfigUnit(
+        "telethon", "tg_user_id", description="Admin's user id (https://bit.ly/30KuyfC)"
+    )
