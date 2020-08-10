@@ -1,19 +1,30 @@
-from gino import Gino
+from telegram_coin_bot.utils.config import PROJECT_PATH
+import os
+from peewee import Model, CharField, IntegerField, FloatField, SqliteDatabase
+import enum
 
-db = Gino()
-
-
-class Account(db.Model):
-    __tablename__ = "accounts"
-
-    id = db.Column(db.Integer(), primary_key=True)
-    phone = db.Column(db.String(), unique=True)
-    password = db.Column(db.String())
+db = SqliteDatabase(os.path.join(PROJECT_PATH, "project.db"))
 
 
-class Session(db.Model):
-    __tablename__ = "sessions"
+class BaseModel(Model):
+    class Meta:
+        database = db
 
-    id = db.Column(db.Integer(), primary_key=True)
-    phone = db.Column(db.String(), unique=True)
-    session_string = db.Column(db.String())
+
+class Session(BaseModel):
+    id = IntegerField(primary_key=True)
+    phone = CharField(unique=True)
+    api_id = CharField()
+    api_hash = CharField()
+    session_string = CharField()
+
+
+class Money(BaseModel):
+    id = IntegerField(primary_key=True)
+    type = IntegerField()
+    amount = FloatField()
+
+
+class MoneyType(enum.Enum):
+    ADD = 0
+    WITHDRAW = 1
