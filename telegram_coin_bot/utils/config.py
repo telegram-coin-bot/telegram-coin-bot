@@ -80,41 +80,5 @@ class Config:
         default_value=300,
         description="Задержка между попыткой получить задание (в секундах)",
     )
-    WALLET = ConfigUnit(
-        "application",
-        "wallet",
-        description="Криптовалютный кошелёк, куда будут выводиться деньги",
-    )
-    API_ID = ConfigUnit(
-        "telethon",
-        "api_id",
-        description="https://core.telegram.org/api/obtaining_api_id",
-    )
-    API_HASH = ConfigUnit(
-        "telethon",
-        "api_hash",
-        description="https://core.telegram.org/api/obtaining_api_id",
-    )
 
-    POSTGRES_HOST = ConfigUnit(
-        "postgres", "host", default_value="127.0.0.1", description="Хост"
-    )
-    POSTGRES_PORT = ConfigUnit(
-        "postgres", "port", default_value="5432", description="Порт"
-    )
-    POSTGRES_USER = ConfigUnit(
-        "postgres",
-        "user",
-        default_value="telegram_coin_user",
-        description="Имя пользователя",
-    )
-    POSTGRES_PASSWORD = ConfigUnit(
-        "postgres",
-        "password",
-        default_value="telegram_coin_password",
-        description="Пароль",
-    )
-    POSTGRES_DB = ConfigUnit(
-        "postgres", "db", default_value="telegram_coin_db", description="Имя БД"
-    )
-    POSTGRES_URI = ConfigUnit("postgres", "uri")
+    BOT_TOKEN = ConfigUnit("telethon", "bot_token", description="Токен бота")
