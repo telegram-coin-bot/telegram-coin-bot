@@ -17,6 +17,23 @@ import peewee
 # Configure logging
 from telegram_coin_bot.utils.db import create_tables
 
+"""Аутентификация — пропускаем сообщения только от одного Telegram аккаунта"""
+from aiogram import types
+from aiogram.dispatcher.handler import CancelHandler
+from aiogram.dispatcher.middlewares import BaseMiddleware
+
+
+class AccessMiddleware(BaseMiddleware):
+    def __init__(self, access_id: int):
+        self.access_id = access_id
+        super().__init__()
+
+    async def on_process_message(self, message: types.Message, _):
+        if int(message.from_user.id) != int(self.access_id):
+            await message.answer("Access Denied")
+            raise CancelHandler()
+
+
 logging.basicConfig(level=logging.INFO)
 
 accounts_manager = AccountsManager()
@@ -24,6 +41,7 @@ accounts_manager = AccountsManager()
 storage = MemoryStorage()
 bot = Bot(token=Config.BOT_TOKEN.value)
 dp = Dispatcher(bot, storage=storage)
+dp.middleware.setup(AccessMiddleware(Config.TG_USER_ID.value))
 
 
 @dp.message_handler(commands=["start", "help"])
