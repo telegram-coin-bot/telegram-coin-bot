@@ -44,13 +44,8 @@ setup(
     install_requires=load_requirements("requirements.txt"),
     entry_points={
         "console_scripts": [
-            "{0}_db = {0}.db.__main__:main".format(module_name),
-            "{0}_accounts = {0}.accounts.__main__:main".format(module_name),
-            "{0}_visit_sites = {0}.bot_tasks.visit_sites.__main__:main".format(
-                module_name
-            ),
             "{0}_config = {0}.configurator.__main__:main".format(module_name),
-            "{0}_balance = {0}.balance.__main__:main".format(module_name),
+            "{0} = {0}.bot_manager.__main__:main".format(module_name),
         ]
     },
     include_package_data=True,
