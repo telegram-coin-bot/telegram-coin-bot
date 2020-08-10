@@ -1,20 +1,19 @@
 import logging
+import os
 
+import peewee
+import telethon
+from aiogram import Bot, Dispatcher, executor, types
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
-import telethon
-from telegram_coin_bot.accounts.creator import AccountCreator
-from telegram_coin_bot.bot_manager import consts, keyboard
-from aiogram import Bot, Dispatcher, types, executor
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from telegram_coin_bot.accounts.manager import AccountsManager
-from telegram_coin_bot.utils.config import Config, PROJECT_PATH
-from telegram_coin_bot.db.schema import Session, Money
-import os
-import peewee
 
-# Configure logging
+from telegram_coin_bot.accounts.creator import AccountCreator
+from telegram_coin_bot.accounts.manager import AccountsManager
+from telegram_coin_bot.bot_manager import consts, keyboard
+from telegram_coin_bot.db.schema import Money, Session
+from telegram_coin_bot.utils.config import PROJECT_PATH, Config
 from telegram_coin_bot.utils.db import create_tables
 
 """Аутентификация — пропускаем сообщения только от одного Telegram аккаунта"""

@@ -1,4 +1,4 @@
-from telegram_coin_bot.db.schema import db, Session, Money
+from telegram_coin_bot.db.schema import Money, Session, db
 
 
 def create_tables():

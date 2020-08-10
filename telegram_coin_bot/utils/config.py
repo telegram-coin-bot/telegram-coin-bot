@@ -1,6 +1,6 @@
 import os
-from pathlib import Path
 from configparser import ConfigParser
+from pathlib import Path
 
 PROJECT_PATH = Path(__file__).parent.parent.resolve()
 

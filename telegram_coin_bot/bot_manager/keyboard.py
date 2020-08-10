@@ -1,12 +1,11 @@
 from aiogram.types import (
-    ReplyKeyboardRemove,
-    ReplyKeyboardMarkup,
-    KeyboardButton,
-    InlineKeyboardMarkup,
     InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    KeyboardButton,
+    ReplyKeyboardMarkup,
 )
-from telegram_coin_bot.bot_manager import consts
 
+from telegram_coin_bot.bot_manager import consts
 
 MAIN_MENU = (
     ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)

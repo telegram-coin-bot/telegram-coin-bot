@@ -1,7 +1,8 @@
+import asyncio
+
+from telegram_coin_bot.bot import create_bot
 from telegram_coin_bot.db.schema import Session
 from telegram_coin_bot.handlers import visit_sites
-from telegram_coin_bot.bot import create_bot
-import asyncio
 from telegram_coin_bot.utils.config import Config
 
 

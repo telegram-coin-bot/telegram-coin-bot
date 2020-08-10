@@ -1,7 +1,9 @@
-from telegram_coin_bot.utils.config import PROJECT_PATH
-import os
-from peewee import Model, CharField, IntegerField, FloatField, SqliteDatabase
 import enum
+import os
+
+from peewee import CharField, FloatField, IntegerField, Model, SqliteDatabase
+
+from telegram_coin_bot.utils.config import PROJECT_PATH
 
 db = SqliteDatabase(os.path.join(PROJECT_PATH, "project.db"))
 

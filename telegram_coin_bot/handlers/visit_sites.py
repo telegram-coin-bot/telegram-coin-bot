@@ -5,9 +5,9 @@ from bs4 import BeautifulSoup
 from telethon import events
 from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
 
-from telegram_coin_bot.utils.config import Config
 from telegram_coin_bot.bot import Bot
 from telegram_coin_bot.db.schema import Money, MoneyType
+from telegram_coin_bot.utils.config import Config
 
 
 def is_menu_message(event):
