@@ -20,6 +20,5 @@ rfc3986==1.4.0
 rsa==4.6
 sniffio==1.1.0
 soupsieve==2.0.1
--e git+https://github.com/telegram-coin-bot/telegram-coin-bot@0660bdd8e3e8302aceb738e5ec6f3a53bdfb0450#egg=telegram_coin_bot
 Telethon==1.16.1
 yarl==1.5.1
