@@ -1,4 +1,5 @@
 from telethon import TelegramClient
+from telethon.errors import SessionPasswordNeededError
 from telethon.sessions import StringSession
 
 
@@ -8,7 +9,6 @@ class AccountCreator(TelegramClient):
         self.password = password
         self.api_id = api_id
         self.api_hash = api_hash
-        self.user = None
 
     async def init(self):
         super().__init__(StringSession(), self.api_id, self.api_hash)
@@ -23,6 +23,9 @@ class AccountCreator(TelegramClient):
             await self.sign_in(self.phone)
 
     async def enter_code(self, code):
-        self.user = await self.sign_in(code=code, password=self.password)
+        try:
+            await self.sign_in(code=code)
+        except SessionPasswordNeededError:
+            await self.sign_in(password=self.password)
         await self.disconnect()
         return StringSession.save(self.session)
